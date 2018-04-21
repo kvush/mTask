@@ -4,6 +4,7 @@ namespace kvush\controllers;
 
 use kvush\core\Application;
 use kvush\core\Controller;
+use kvush\core\DB;
 use kvush\models\Task;
 
 /**
@@ -48,5 +49,19 @@ class TaskController extends Controller
             return json_encode(['status' => $newStatus]);
         }
         return $this->redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    /**
+     * @param $id
+     *
+     * @return string
+     */
+    public function actionUpdateTask($id)
+    {
+        $message = $_POST['message'] ?? false;
+        if ($message) {
+            DB::getInstance()->update('tasks', ['message' => $message], ['id' => $id])->execute();
+        }
+        return json_encode(['success' => true]);
     }
 }

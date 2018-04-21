@@ -59,6 +59,20 @@ function sorting() {
     });
 }
 
+$('.edit-task-save').on('click', function() {
+    var id = $(this).data("id");
+    var url = $(this).attr("href");
+    var text = $('#' + id).val();
+    $.post(
+        url,
+        {"message": text},
+        function() {
+            alert("Данные успешно сохранены");
+        }
+    );
+    return false;
+});
+
 $(document).ready(function() {
     sorting();
 });
@@ -93,13 +107,22 @@ $pagination = $tasksData['pagination'];
                     </h3>
                     <div style="max-height: 250px; overflow-y: hidden">
                         <p><?=$task['user_email']?></p>
-                        <p class="lead" style="word-wrap: break-word"><?=$task['message']?></p>
+                        <?php if (\kvush\models\User::isAdmin()):?>
+                            <div class="form-group">
+                                <textarea class="form-control edit-task" rows="3" title="изменить задачу" id="<?=$task['id']?>"><?=$task['message']?></textarea>
+                            </div>
+                        <?php else:?>
+                            <p class="lead" style="word-wrap: break-word"><?=$task['message']?></p>
+                        <?php endif;?>
                     </div>
                     <?php if (!empty($task['image'])){
                         echo "<img src='/images/$task[image]' class='img-fluid img-thumbnail' alt='task image' style='margin-bottom: 10px;'>";
                     }?>
                     <?php if (\kvush\models\User::isAdmin()):?>
-                        <p><a class="btn btn-secondary" href="/task/switch-status/<?=$task['id']?>" role="button">Сменить статус</a></p>
+                        <p>
+                            <a class="btn btn-secondary" href="/task/switch-status/<?=$task['id']?>" role="button">Сменить статус</a>
+                            <a class="btn btn-primary edit-task-save" data-id="<?=$task['id']?>" href="/task/update-task/<?=$task['id']?>" role="button">Сохранить</a>
+                        </p>
                     <?php endif;?>
                 </div>
             <?php endforeach;?>

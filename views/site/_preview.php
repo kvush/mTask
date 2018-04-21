@@ -18,11 +18,11 @@
             <div class="col-md-12">
                 <h3>
                     <small>ответственный</small> <span class='badge badge-warning'>new</span><br>
-                    <?=$name?>
+                    <?=htmlspecialchars($name)?>
                 </h3>
                 <div style="max-height: 250px; overflow-y: hidden">
-                    <p><?=$email?></p>
-                    <p class="lead" style="word-wrap: break-word"><?=$message?></p>
+                    <p><?=htmlspecialchars($email)?></p>
+                    <p class="lead" style="word-wrap: break-word"><?=htmlspecialchars($message)?></p>
                 </div>
             </div>
         </div>

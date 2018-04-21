@@ -103,16 +103,16 @@ $pagination = $tasksData['pagination'];
                     <?php $badge = $task['status'] == \kvush\models\Task::STATUS_NEW ? "<span class='badge badge-warning'>new</span>" : "<span class='badge badge-secondary'>done</span>"?>
                     <h3>
                         <small>ответственный</small> <?=$badge?><br>
-                        <?=$task['user_name']?>
+                        <?=htmlspecialchars($task['user_name'])?>
                     </h3>
                     <div style="max-height: 250px; overflow-y: hidden">
-                        <p><?=$task['user_email']?></p>
+                        <p><?=htmlspecialchars($task['user_email'])?></p>
                         <?php if (\kvush\models\User::isAdmin()):?>
                             <div class="form-group">
-                                <textarea class="form-control edit-task" rows="3" title="изменить задачу" id="<?=$task['id']?>"><?=$task['message']?></textarea>
+                                <textarea class="form-control edit-task" rows="3" title="изменить задачу" id="<?=$task['id']?>"><?=htmlspecialchars($task['message'])?></textarea>
                             </div>
                         <?php else:?>
-                            <p class="lead" style="word-wrap: break-word"><?=$task['message']?></p>
+                            <p class="lead" style="word-wrap: break-word"><?=htmlspecialchars($task['message'])?></p>
                         <?php endif;?>
                     </div>
                     <?php if (!empty($task['image'])){

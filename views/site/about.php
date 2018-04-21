@@ -8,7 +8,7 @@ $this->title = "Описание менеджер задач TaskM"
 <div class="jumbotron">
     <div class="container">
         <h1 class="display-4">
-            Добро пожаловать <small>в менеджер задач TaskM</small>
+            Добро пожаловать <small>в менеджер задач mTask</small>
         </h1>
         <br>
         <p><a class="btn btn-primary btn-lg" href="/task/add" role="button">Создать задачу?</a></p>

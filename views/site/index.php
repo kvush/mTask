@@ -43,7 +43,9 @@ $pagination = $tasksData['pagination'];
                         <small>ответственный</small> <?=$badge?><br>
                         <?=$task['user_name']?>
                     </h3>
-                    <p class="lead" style="min-height: 300px;"><?=$task['message']?></p>
+                    <div style="min-height: 200px">
+                        <p class="lead" style="word-wrap: break-word"><?=$task['message']?></p>
+                    </div>
                     <?php if (!empty($task['image'])){
                         echo "<img src='$task[image]' class='img-fluid img-thumbnail' alt='task image'>";
                     }?>
@@ -87,5 +89,6 @@ $pagination = $tasksData['pagination'];
             </nav>
         <?php endif;?>
         <a class="btn btn-primary add-task float-right" href="#" role="button">Добавить задачу</a>
+        <div class="clearfix"></div>
     <?php endif;?>
 </div> <!-- /container -->

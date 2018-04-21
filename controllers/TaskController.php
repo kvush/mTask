@@ -20,7 +20,7 @@ class TaskController extends Controller
     {
         if (!empty($_POST)) {
             Task::saveData($_POST);
-            return $this->redirect("/");
+            return $this->redirect($_SERVER['HTTP_REFERER']);
         }
         if (Application::getInstance()->request->getIsAjax()) {
             return $this->renderAjax("modal_add_task");

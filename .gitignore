@@ -13,3 +13,5 @@ themes/classic/views/
 .idea/
 out
 gen
+
+/vendor/

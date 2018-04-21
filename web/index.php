@@ -1,4 +1,7 @@
 <?php
+define("WEB_PATH", __DIR__ . DIRECTORY_SEPARATOR);
+
+require(__DIR__ . '/../vendor/autoload.php');
 require(__DIR__ . '/../core/bootstrap.php');
 
 try {

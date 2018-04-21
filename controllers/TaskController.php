@@ -19,8 +19,14 @@ class TaskController extends Controller
     public function actionAdd()
     {
         if (!empty($_POST)) {
-            Task::saveData($_POST);
-            return $this->redirect($_SERVER['HTTP_REFERER']);
+            $filename = "";
+            if ($_FILES['image']['size'] !== 0) {
+                $filename = Task::saveImage($_FILES['image']);
+            }
+            $data = $_POST;
+            $data['image'] = $filename;
+            Task::saveData($data);
+            return $this->redirect("/");
         }
         if (Application::getInstance()->request->getIsAjax()) {
             return $this->renderAjax("modal_add_task");

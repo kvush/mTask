@@ -2,7 +2,11 @@
 namespace kvush\models;
 
 
+use Imagine\Image\Box;
+use Imagine\Imagick\Imagine;
 use kvush\core\DB;
+use kvush\core\exceptions\HttpException;
+use RuntimeException;
 
 /**
  * Class Task
@@ -83,5 +87,48 @@ class Task
         else {
             return $curStatus;
         }
+    }
+
+    /**
+     * @param $imageFile
+     *
+     * @return bool|string
+     * @throws HttpException
+     */
+    public static function saveImage($imageFile)
+    {
+        $types = ['image/gif', 'image/png', 'image/jpeg', 'image/pjpeg'];
+        if (!in_array($imageFile['type'], $types)){
+            throw new HttpException(500, 'Недопустимый тип файла. Допустимо загружать только изображения: *.gif, *.png, *.jpg');
+        }
+        //берем временный файл
+        $tempFile = $imageFile['tmp_name'];
+        //получаем расширение (без точки)
+        $ext = strtolower(pathinfo($imageFile['name'], PATHINFO_EXTENSION));
+        //путь назначения
+        $targetPath = WEB_PATH . "images" .DIRECTORY_SEPARATOR;
+        //генерируем уникальное имя файла с префиксов в виде ID товара
+        $uniqueName = md5(microtime() . rand(0, 9999));
+        $uniqueName = substr($uniqueName, 0, 5);
+        $uniqueName = $uniqueName . "." . $ext;
+
+        $targetFile = $targetPath . $uniqueName;
+
+        if (!is_dir($targetPath)) {
+            mkdir($targetPath);
+        }
+
+        if (!is_file($tempFile)) {
+            throw new HttpException(500, "{$imageFile['name']} не является файлом");
+        }
+        try {
+            $imagine = new Imagine();
+            $image = $imagine->open($tempFile);
+            $image->thumbnail(new Box(320, 240))
+                ->save($targetFile, ['quality' => 80]);
+        } catch (RuntimeException $e) {
+            throw new HttpException(500, "не получилось сохранить файл. Ошибка: " . $e->getMessage());
+        }
+        return $uniqueName;
     }
 }

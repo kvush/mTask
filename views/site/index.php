@@ -35,7 +35,7 @@ $pagination = $tasksData['pagination'];
         <p class="lead">Воспользуйтесь меню или нажмите кнопку ниже чтобы создать задачу</p>
         <a class="btn btn-primary add-task" href="#" role="button">Добавить задачу</a>
     <?php else:?>
-        <div class="row">
+        <div class="row" style="height: 450px; overflow-y: hidden">
             <?php foreach ($tasks as $task):?>
                 <div class="col-md-4">
                     <?php $badge = $task['status'] == \kvush\models\Task::STATUS_NEW ? "<span class='badge badge-warning'>new</span>" : "<span class='badge badge-secondary'>done</span>"?>
@@ -43,11 +43,11 @@ $pagination = $tasksData['pagination'];
                         <small>ответственный</small> <?=$badge?><br>
                         <?=$task['user_name']?>
                     </h3>
-                    <div style="min-height: 200px">
+                    <div style="max-height: 300px; overflow-y: hidden">
                         <p class="lead" style="word-wrap: break-word"><?=$task['message']?></p>
                     </div>
                     <?php if (!empty($task['image'])){
-                        echo "<img src='$task[image]' class='img-fluid img-thumbnail' alt='task image'>";
+                        echo "<img src='/images/$task[image]' class='img-fluid img-thumbnail' alt='task image' style='margin-bottom: 10px;'>";
                     }?>
                     <?php if (\kvush\models\User::isAdmin()):?>
                         <p><a class="btn btn-secondary" href="/task/switch-status/<?=$task['id']?>" role="button">Сменить статус</a></p>

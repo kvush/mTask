@@ -1,0 +1,14 @@
+{
+    "name": "kvush-nbook/task-manger",
+    "description": "Task manager. Simple web application, implement MVC pattern",
+    "type": "project",
+    "require": {
+        "imagine/imagine": "^0.7.1"
+    },
+    "authors": [
+        {
+            "name": "Ilya Shashilov",
+            "email": "kvush@mail.ru"
+        }
+    ]
+}

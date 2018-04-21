@@ -29,4 +29,18 @@ class TaskController extends Controller
             return $this->render("add_task");
         }
     }
+
+    /**
+     * @param int $id
+     *
+     * @return \kvush\core\Response|string
+     */
+    public function actionSwitchStatus($id)
+    {
+        $newStatus = Task::switchStatus((int)$id);
+        if (Application::getInstance()->request->getIsAjax()) {
+            return json_encode(['status' => $newStatus]);
+        }
+        return $this->redirect($_SERVER['HTTP_REFERER']);
+    }
 }

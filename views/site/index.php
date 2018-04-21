@@ -48,7 +48,7 @@ $pagination = $tasksData['pagination'];
                         echo "<img src='$task[image]' class='img-fluid img-thumbnail' alt='task image'>";
                     }?>
                     <?php if (\kvush\models\User::isAdmin()):?>
-                        <p><a class="btn btn-secondary" href="#" role="button">Сменить статус</a></p>
+                        <p><a class="btn btn-secondary" href="/task/switch-status/<?=$task['id']?>" role="button">Сменить статус</a></p>
                     <?php endif;?>
                 </div>
             <?php endforeach;?>
@@ -86,5 +86,6 @@ $pagination = $tasksData['pagination'];
                 </ul>
             </nav>
         <?php endif;?>
+        <a class="btn btn-primary add-task float-right" href="#" role="button">Добавить задачу</a>
     <?php endif;?>
 </div> <!-- /container -->

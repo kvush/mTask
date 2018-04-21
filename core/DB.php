@@ -63,6 +63,41 @@ class DB extends BaseObject
     }
 
     /**
+     * @param string $table
+     * @param array  $data
+     * @param array  $where
+     *
+     * @return $this
+     */
+    public function update(string $table, array $data, array $where)
+    {
+        $tmp = [];
+        foreach ($data as $k => $v)
+        {
+            $tmp[] = '`'.$k.'` = ?';
+            $this->_params[] = $v;
+        }
+        $data = join(', ', $tmp);
+
+        $w = $where;
+        if (is_array($where)) {
+            $tmp2 = [];
+            foreach ($where as $k => $v)
+            {
+                $tmp2[] = '`'.$k.'` = ?';
+                $this->_params[] = $v;
+            }
+            $w = join(' AND ', $tmp2);
+        }
+        $w = 'WHERE '.$w;
+
+        $sql = "UPDATE `$table` SET ".$data . " $w";
+        $this->_result = $this->_dbh->prepare($sql);
+
+        return $this;
+    }
+
+    /**
      * @return bool
      */
     public function execute()

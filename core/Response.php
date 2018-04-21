@@ -140,6 +140,25 @@ class Response
     }
 
     /**
+     * Установка загаловка для переадрисации на новый $url
+     *
+     * @param string $url
+     * @param int    $statusCode
+     *
+     * @return $this
+     */
+    public function redirect($url, $statusCode = 302)
+    {
+        //todo сделать контейнер заголовков HeaderCollection
+        //todo вместо header и die() возвращать $this
+        $statusText = self::$httpStatuses[$statusCode];
+        header("HTTP/{$this->version} {$statusCode} {$statusText}");
+        header("Content-Type: text/html; charset=utf-8");
+        header("Location: $url");
+        die();
+    }
+
+    /**
      * @return int HTTP статус код для отправки с ответом.
      */
     public function getStatusCode()
@@ -177,7 +196,7 @@ class Response
     /** Запрет на клонирование */
     private function __clone(){}
 
-    /** @var Application $_instance единственный экземпляр приложения. */
+    /** @var Response $_instance единственный экземпляр приложения. */
     private static $_instance;
 
     /**

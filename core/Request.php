@@ -32,6 +32,15 @@ class Request
         return $this->_pathInfo;
     }
 
+    /**
+     * Является ли пришедший запрос ajax-ом
+     * @return bool
+     */
+    public function getIsAjax()
+    {
+        return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest';
+    }
+
     /**********************************************************************************************************************
      * SINGLETON
      **********************************************************************************************************************/
@@ -42,7 +51,7 @@ class Request
     /** Запрет на клонирование */
     private function __clone(){}
 
-    /** @var Application $_instance единственный экземпляр приложения. */
+    /** @var Request $_instance единственный экземпляр приложения. */
     private static $_instance;
 
     /**

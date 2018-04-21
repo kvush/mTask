@@ -54,7 +54,7 @@ class Route
     /** Запрет на клонирование */
     private function __clone(){}
 
-    /** @var Application $_instance единственный экземпляр приложения. */
+    /** @var Route $_instance единственный экземпляр приложения. */
     private static $_instance;
 
     /**

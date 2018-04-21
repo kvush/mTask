@@ -121,4 +121,17 @@ class Controller
         }
         return $viewObj->renderLayout($content);
     }
+
+    /**
+     * Метод выполняющий переадрисацию
+     *
+     * @param string $url
+     * @param int    $statusCode
+     *
+     * @return Response
+     */
+    public function redirect($url, $statusCode = 302)
+    {
+        return Application::getInstance()->getResponse()->redirect($url, $statusCode);
+    }
 }

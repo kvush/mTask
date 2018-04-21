@@ -16,6 +16,9 @@ class View
     /** @var string */
     public $title = 'Менеджер задач';
 
+    /** @var array массив js скриптов подключенных в различных видах и выводящихся в layout/main */
+    private $js = [];
+
     /**
      * Метод рендерит вид. Вызывается в контроллерах
      *
@@ -45,6 +48,30 @@ class View
     public function renderLayout($content)
     {
         return $this->renderFile($this->layout, ['content' => $content]);
+    }
+
+    /**
+     * Публикует в главном виде все зарегестрированные скрипты
+     */
+    public function publicJsScripts()
+    {
+        foreach ($this->js as $js) {
+            echo "<script>$js</script>\n";
+        }
+        $this->js=[];
+    }
+
+    /**
+     * Регистрирует скрипт в массив скриптов для публикации в главном виде
+     *
+     * @param string $js
+     */
+    public function registerJs($js)
+    {
+        $key = md5($js);
+        if (!key_exists($key, $this->js)) {
+            $this->js[$key] = $js;
+        }
     }
 
     /**
@@ -93,7 +120,7 @@ class View
     /** Запрет на клонирование */
     private function __clone(){}
 
-    /** @var Application $_instance единственный экземпляр приложения. */
+    /** @var View $_instance единственный экземпляр приложения. */
     private static $_instance;
 
     /**

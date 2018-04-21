@@ -97,7 +97,8 @@ $pagination = $tasksData['pagination'];
             <option value="status">Отсортировать по статусу</option>
         </select>
         <br>
-        <div class="row" style="height: 460px; overflow-y: hidden">
+        <?php $overflow = \kvush\models\User::isAdmin() ? "scroll" : "hidden"?>
+        <div class="row" style="height: 460px; overflow-y: <?=$overflow?>">
             <?php foreach ($tasks as $task):?>
                 <div class="col-md-4">
                     <?php $badge = $task['status'] == \kvush\models\Task::STATUS_NEW ? "<span class='badge badge-warning'>new</span>" : "<span class='badge badge-secondary'>done</span>"?>

@@ -18,8 +18,17 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $page = $_GET['page'] ?? 1;
-        $tasksData = Task::getAllTasks($page);
+        session_start();
+        if (isset($_GET['page'])) {
+            $_SESSION['page'] = $_GET['page'];
+        }
+        if (isset($_GET['sort'])) {
+            $_SESSION['sort'] = $_GET['sort'];
+        }
+
+        $page = $_SESSION['page'] ?? 1;
+        $sort = $_SESSION['sort'] ?? '';
+        $tasksData = Task::getAllTasks($page, $sort);
         return $this->render("index", [
             'tasksData' => $tasksData
         ]);

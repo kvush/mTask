@@ -22,14 +22,19 @@ class Task
 
     /**
      * @param int $page номер страницы (для пагинации)
+     * @param string $sort
      *
      * @return mixed
      */
-    public static function getAllTasks($page)
+    public static function getAllTasks($page, $sort)
     {
         $pagination = static::getPagination($page);
         $rows = static::ROW_PER_PAGE;
-        $sql = "SELECT * FROM tasks LIMIT $pagination[start_pages], $rows";
+        $sql = "SELECT * FROM tasks";
+        if (!empty($sort)) {
+            $sql .= " ORDER BY `$sort`";
+        }
+        $sql .= " LIMIT $pagination[start_pages], $rows";
         $tasks = DB::getInstance()->select($sql)->all();
         return ["tasks" => $tasks, "pagination" => $pagination];
     }

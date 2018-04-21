@@ -15,13 +15,54 @@ $(".add-task").on('click', function() {
             myModal.modal({backdrop: 'static', keyboard: false});
             myModal.modal('show');
             myModal.find(".add-task").on('click', function() {
-                $('#submit-add-task-form').trigger('click')
+                $('#submit-add-task-form').trigger('click');
                 return false;
             });
         }
     );
     return false;
 });
+
+function getUrlParams(prop) {
+    var params = {};
+    var search = decodeURIComponent(window.location.href.slice(window.location.href.indexOf('?') + 1));
+    var definitions = search.split('&');
+
+    definitions.forEach(function (val, key) {
+        var parts = val.split('=', 2);
+        params[parts[0]] = parts[1];
+    });
+
+    return (prop && prop in params) ? params[prop] : undefined;
+}
+
+function sorting() {
+    var sortView = $(".sorting-tasks");
+    if (typeof(Storage) !== "undefined") {
+        var selected = localStorage.getItem("sort");
+        if (selected !== null) {
+            sortView.val(selected);
+        }
+
+    }
+    sortView.change(function () {
+        var sort = $(this).val();
+        if (typeof(Storage) !== "undefined") {
+            localStorage.setItem("sort", sort);
+        }
+        var url = "?sort=" + sort;
+        var page = getUrlParams('page');
+        if (page !== undefined) {
+            url += "&page=" + page;
+        }
+        window.location.assign(url);
+    });
+}
+
+$(document).ready(function() {
+    sorting();
+});
+
 js
 );
 
@@ -35,6 +76,13 @@ $pagination = $tasksData['pagination'];
         <p class="lead">Воспользуйтесь меню или нажмите кнопку ниже чтобы создать задачу</p>
         <a class="btn btn-primary add-task" href="#" role="button">Добавить задачу</a>
     <?php else:?>
+        <select class="custom-select sorting-tasks" title="сортировать по">
+            <option selected>Выберете вид сортировки</option>
+            <option value="user_name">Отсортировать по имени</option>
+            <option value="user_email">Отсортировать по email</option>
+            <option value="status">Отсортировать по статусу</option>
+        </select>
+        <br>
         <div class="row" style="height: 450px; overflow-y: hidden">
             <?php foreach ($tasks as $task):?>
                 <div class="col-md-4">
@@ -43,7 +91,8 @@ $pagination = $tasksData['pagination'];
                         <small>ответственный</small> <?=$badge?><br>
                         <?=$task['user_name']?>
                     </h3>
-                    <div style="max-height: 300px; overflow-y: hidden">
+                    <div style="max-height: 250px; overflow-y: hidden">
+                        <p><?=$task['user_email']?></p>
                         <p class="lead" style="word-wrap: break-word"><?=$task['message']?></p>
                     </div>
                     <?php if (!empty($task['image'])){
@@ -56,7 +105,7 @@ $pagination = $tasksData['pagination'];
             <?php endforeach;?>
         </div>
         <?php if ($pagination['last_page'] > 1):?>
-            <nav aria-label="Page navigation" style="margin-top: 50px;">
+            <nav aria-label="Page navigation" style="margin-top: 10px;">
                 <ul class="pagination">
                     <?php
                     $disabled_pr = "";

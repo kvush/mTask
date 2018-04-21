@@ -15,7 +15,7 @@ class HttpNotFoundException extends HttpException
      * @param int        $code     error code
      * @param \Exception $previous The previous exception used for the exception chaining.
      */
-    public function __construct($message = 'страница не найдена', $code = 0, \Exception $previous = null)
+    public function __construct($message = 'СЃС‚СЂР°РЅРёС†Р° РЅРµ РЅР°Р№РґРµРЅР°', $code = 0, \Exception $previous = null)
     {
         parent::__construct(404, $message, $code, $previous);
     }

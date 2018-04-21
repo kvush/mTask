@@ -111,6 +111,8 @@ class Application extends BaseObject
         if (!method_exists($controllerObj, $callableAction)) {
             throw new HttpNotFoundException("Страница не найдена");
         }
+        //проверим соответствие переданных параметров параматрем в методе, в случае ошибки выбросим исключение HttpNotFoundException
+        Controller::checkActionParams($controllerClassName, $callableAction, $params);
 
         return call_user_func_array([$controllerObj, $callableAction], $params);
     }

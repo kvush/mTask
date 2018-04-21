@@ -2,6 +2,9 @@
 namespace kvush\core;
 
 
+use kvush\core\exceptions\HttpNotFoundException;
+
+
 /**
  * Базовый класс для всех конроллеров в системе
  *
@@ -32,6 +35,36 @@ class Controller
     public static function getActionName(string $action)
     {
         return 'action' . str_replace(' ', '', ucwords(implode(' ', explode('-', $action))));
+    }
+
+    /**
+     * Проверим соответсиве переданых параметров параметрам которые принимает действие контроллера
+     * Выбрасим исключение HttpNotFoundException в случае ошибки
+     *
+     * @param string $controller
+     * @param string $action
+     * @param array  $params
+     *
+     * @throws HttpNotFoundException
+     */
+    public static function checkActionParams(string $controller, string $action, array $params)
+    {
+        $method = new \ReflectionMethod($controller, $action);
+        $methodParams = $method->getParameters();
+
+        //если передали больше параметров чем действие контроллера может принять
+        if (sizeof($params) > sizeof($methodParams)) {
+            throw new HttpNotFoundException();
+        }
+        //если передали меньше параметров чем действие контроллера должно принять
+        foreach ($methodParams as $methodParam) {
+            $paramName = $methodParam->getName();
+            $paramPos = $methodParam->getPosition();
+            $isOptional = $methodParam->isOptional();
+            if (!key_exists($paramName, $params) && !key_exists($paramPos, $params) && !$isOptional) {
+                throw new HttpNotFoundException();
+            }
+        }
     }
 
     /**

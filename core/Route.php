@@ -38,7 +38,7 @@ class Route
                 $params[] = array_shift($path);
             }
         }
-        $route['controller'] = $controller == '' ? 'default' : $controller;
+        $route['controller'] = $controller == '' ? 'site' : $controller;
         $route['action'] = $action == '' ? 'index' : $action;
 
         return [$route, $params];

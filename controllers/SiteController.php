@@ -65,4 +65,16 @@ class SiteController extends Controller
         User::logout();
         return $this->redirect("/");
     }
+
+    /**
+     * @return mixed
+     */
+    public function actionPreview()
+    {
+        return $this->renderAjax("_preview", [
+            'name' => $_POST['name'],
+            'email' => $_POST['email'],
+            'message' => $_POST['message']
+        ]);
+    }
 }

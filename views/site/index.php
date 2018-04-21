@@ -62,7 +62,6 @@ function sorting() {
 $(document).ready(function() {
     sorting();
 });
-
 js
 );
 
@@ -77,13 +76,14 @@ $pagination = $tasksData['pagination'];
         <a class="btn btn-primary add-task" href="#" role="button">Добавить задачу</a>
     <?php else:?>
         <select class="custom-select sorting-tasks" title="сортировать по">
-            <option selected>Выберете вид сортировки</option>
+            <option value="" disabled>Выберете вид сортировки</option>
+            <option value="id">Отсортировать по порядку добавления</option>
             <option value="user_name">Отсортировать по имени</option>
             <option value="user_email">Отсортировать по email</option>
             <option value="status">Отсортировать по статусу</option>
         </select>
         <br>
-        <div class="row" style="height: 450px; overflow-y: hidden">
+        <div class="row" style="height: 460px; overflow-y: hidden">
             <?php foreach ($tasks as $task):?>
                 <div class="col-md-4">
                     <?php $badge = $task['status'] == \kvush\models\Task::STATUS_NEW ? "<span class='badge badge-warning'>new</span>" : "<span class='badge badge-secondary'>done</span>"?>
@@ -137,7 +137,7 @@ $pagination = $tasksData['pagination'];
                 </ul>
             </nav>
         <?php endif;?>
-        <a class="btn btn-primary add-task float-right" href="#" role="button">Добавить задачу</a>
+        <a class="btn btn-primary add-task float-right" href="#" role="button">Быстро добавить задачу</a>
         <div class="clearfix"></div>
     <?php endif;?>
 </div> <!-- /container -->
